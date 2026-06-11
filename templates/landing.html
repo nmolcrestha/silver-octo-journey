@@ -24,7 +24,7 @@
         </p>
         <div class="hero-actions">
             <a href="{{ url_for('register') }}" class="btn-hero">Create free account</a>
-            <a href="#features" class="btn-hero">See how it works</a>
+            <a href="#" class="btn-hero" id="howItWorksBtn">See how it works</a>
         </div>
 
         <div class="mock-window">
@@ -102,4 +102,60 @@
     </div>
 </section>
 
+<!-- Video modal -->
+<div class="video-modal" id="videoModal" role="dialog" aria-modal="true" aria-label="How Spendly works">
+    <div class="video-modal-backdrop" id="videoBackdrop"></div>
+    <div class="video-modal-content">
+        <button class="video-modal-close" id="videoClose" aria-label="Close">&#x2715;</button>
+        <div class="video-modal-frame">
+            <iframe
+                id="videoIframe"
+                src=""
+                data-src="https://www.youtube.com/embed/dQw4w9WgXcQ?rel=0"
+                title="How Spendly works"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
+            </iframe>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+    var modal    = document.getElementById('videoModal');
+    var iframe   = document.getElementById('videoIframe');
+    var backdrop = document.getElementById('videoBackdrop');
+    var closeBtn = document.getElementById('videoClose');
+    var trigger  = document.getElementById('howItWorksBtn');
+
+    function openModal() {
+        iframe.src = iframe.dataset.src;
+        modal.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        iframe.src = '';
+        modal.classList.remove('is-open');
+        document.body.style.overflow = '';
+    }
+
+    trigger.addEventListener('click', function (e) {
+        e.preventDefault();
+        openModal();
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+    backdrop.addEventListener('click', closeModal);
+
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+            closeModal();
+        }
+    });
+}());
+</script>
 {% endblock %}
